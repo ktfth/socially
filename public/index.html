@@ -27,47 +27,58 @@
         padding: 20px;
       }
 
-      img.logo {
-        display: block;
-        margin: 0 auto;
-        max-width: 100%;
-        margin-bottom: 30px;
+      .brand {
+        margin-bottom: 1em;
       }
 
-      h2 {
-        font-size: 2em;
-        font-weight: 100;
+      .publication {
+        margin-bottom: 2em;
       }
 
-      footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 20px;
+      .post-body {
+        padding: 1em;
+        width: 100%;
       }
 
-      footer p {
-        font-weight: 300;
-        font-size: 1.0em;
-      }
-
-      a {
-        color: #3cf;
-        text-decoration: none;
-      }
-
-      a:hover,
-      a:focus {
-        color: #3cf;
+      .post-save {
+        padding: .2em;
       }
     </style>
   </head>
   <body>
     <main class="container">
-      <h1>Socially</h1>
+      <h1 class="brand">Socially</h1>
 
-      <input type="text" name="body" placeholder="What happening right now?">
+      <section class="publication">
+        <article class="content">
+          <textarea id="fld-post-body" class="post-body" name="body" placeholder="What happening right now?"></textarea>
+          <button id="btn-post-body" class="post-save" type="button" name="post-save">Send</button>
+        </article>
+      </section>
+
+      <section class="posts">
+        <article class="post">
+          Hello world!
+        </article>
+      </section>
     </main>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.1.4/core.min.js"></script>
+    <script src="//unpkg.com/@feathersjs/client@^4.5.0/dist/feathers.js"></script>
+    <script src="//unpkg.com/socket.io-client@^2.3.0/dist/socket.io.js"></script>
+    <script>
+      // Socket.io is exposed as the `io` global.
+      var socket = io('http://localhost:3030');
+      // @feathersjs/client is exposed as the `feathers` global.
+      var app = feathers();
+
+      app.configure(feathers.socketio(socket));
+      app.configure(feathers.authentication());
+
+      app.service('v1/posts').create({
+        body: 'Content'
+      });
+
+      // feathers.errors is an object with all of the custom error types.
+    </script>
   </body>
 </html>
